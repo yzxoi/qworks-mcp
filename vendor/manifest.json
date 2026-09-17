@@ -1,0 +1,19 @@
+{
+  "qworksVersion": "0.7.9.1176",
+  "sdkPackage": "@inspire/inspire-sdk",
+  "sdkVersion": "0.1.15-dev.2",
+  "sourceSha256": "a7174d80ec9bee60d3d70aca62f2c505bf3d1ad77374d943bb995407dc3e7e76",
+  "runtimeSha256": "3d8ee04cfab51f81f1e18076c7886e6b7b9cda637bdc244a907f48b378e90c21",
+  "selectedDeclarations": 2121,
+  "generatedBytes": 1356489,
+  "exports": {
+    "createInspireMcpServer": "uk",
+    "getPrivateToolDefinitions": "EC",
+    "InspireProvider": "fs",
+    "PrivateContext": "Ia",
+    "privateActions": "K",
+    "sdkVersion": "ms",
+    "zod": "E"
+  },
+  "note": "SDK dependency closure derived from the pinned desktop bundle. Not an official SDK release."
+}

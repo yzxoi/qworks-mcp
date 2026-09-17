@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+private-state/
+credentials*.json
+*.log
+*.har
+*.pcap
+*.pcapng
+*.pem
+*.key
+*.tgz
+coverage/
+generated/
