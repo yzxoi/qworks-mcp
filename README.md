@@ -111,6 +111,12 @@ node bin/qworks-mcp.mjs --modules context,notebooks,resource_specs,images,jupyte
 
 完整工具表、文件传输示例、恢复行为和限制见 [Jupyter 使用说明](docs/jupyter.md)。
 
+## 配套 Inspire Skill
+
+[skills/inspire](skills/inspire/SKILL.md) 从 QWorks 的 Private Skill 提取并适配，保留登录、环境选择和计算任务的模块指导，补充独立 Jupyter 会话、文件、终端和后台命令的工作流。无需安装 QWorks。
+
+Skill 与 MCP 分开安装：MCP 提供工具，Skill 指导 Agent 如何组合工具。支持 Codex、Claude Code 及其他 Agent Skills 客户端，完整目录随仓库和 npm tarball 分发。安装位置、来源和可重复提取步骤见 [Skill 说明](docs/skill.md)。
+
 ## JavaScript SDK
 
 可以在其他 Node 项目中通过本地路径安装：

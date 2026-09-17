@@ -46,13 +46,15 @@ QWORKS_SDK_CREDENTIALS = "/absolute/path/to/credentials.json"
 
 ## 分发与故障定位
 
-当前分发方式为授权用户克隆私有 GitHub 仓库并执行 `npm ci`。也可在本地执行 `npm pack`，将生成的私有 tarball 交给有权限的使用者；包中包含运行时、适配器和说明，不包含开发测试和本地状态。`private: true` 会阻止 npm publish。
+当前分发方式为克隆公开 GitHub 仓库并执行 `npm ci`。也可在本地执行 `npm pack`；包中包含运行时、适配器、Inspire Skill 和说明，不包含开发测试和本地状态。`private: true` 会阻止 npm publish，不代表 GitHub 仓库不可见。
 
 - **找不到 Node：** 将 command 换成 Node 可执行文件的绝对路径。
 - **SDK integrity check failed：** 恢复固定版本 vendor 文件，或用受支持源文件重新提取。
-- **只有三个工具：** 尚未登录，或会话需要重新授权。
+- **只有认证和 Jupyter 工具：** 尚未登录，或会话需要重新授权。若只有三个认证工具，还需检查是否过滤掉了 `jupyter` 模块。
 - **已登录但缺少某个工具：** 检查模块过滤、平台 discovery 和账号权限，不同部署可能不同。
 - **本地文件访问失败：** 将需要操作的目录加入 `--allowed-root`；该参数必须指向已有目录。
 - **协议解析错误：** 直接启动 Node 入口，避免在 stdio 前面加会输出文字的 shell 包装器。
 
 `node bin/qworks-mcp.mjs --doctor` 只输出版本和完整性信息，适合检查安装。不要把带账户信息的完整工具响应作为公开诊断记录。
+
+配套 Skill 的安装和使用见 [Skill 说明](skill.md)；复制 Skill 不会替代 MCP 配置。

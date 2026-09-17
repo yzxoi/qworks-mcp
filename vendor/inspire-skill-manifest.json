@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "qworksVersion": "0.7.9.1176",
+  "edition": "private",
+  "sourceSubdirectory": "server/inspire-skills/private/inspire",
+  "transformVersion": 1,
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sourceSha256": "d27577c8e95a564f453d32230a39a432a8ac384cc99249987ebbef1170917618",
+      "adaptedSha256": "cf398d86b33579e2a404dd925e1c5d55eb8ab67851cab7200f40449516abb390"
+    },
+    {
+      "path": "references/hpc-jobs.md",
+      "sourceSha256": "9a7809af50e186ac05c04f69f07f413100d8a30d1d124a4619e4ee394b07e8a9",
+      "adaptedSha256": "9a7809af50e186ac05c04f69f07f413100d8a30d1d124a4619e4ee394b07e8a9"
+    },
+    {
+      "path": "references/images.md",
+      "sourceSha256": "081beac28481eaed22506ec973ea8939bff6e37841b75661ef41451f912417a7",
+      "adaptedSha256": "48e610403a314f0762e5bf8979c6eaf255ad1f0696a813902ba588e978a7823e"
+    },
+    {
+      "path": "references/inference-servings.md",
+      "sourceSha256": "203099469c48975eda7a7635d4f672270993982783f72af6ab3214d078dbdf57",
+      "adaptedSha256": "203099469c48975eda7a7635d4f672270993982783f72af6ab3214d078dbdf57"
+    },
+    {
+      "path": "references/notebooks.md",
+      "sourceSha256": "26e32ed98ab96a3dece04c1db6ae2988880acc962b9d217528803578f760aca3",
+      "adaptedSha256": "95fab320644c60cb5cc9d9b89321b4a0a016e17d2d0b718a542b9b5ccf462d0f"
+    },
+    {
+      "path": "references/train/create.md",
+      "sourceSha256": "12902fd2a9d11239b915137224141c4521674ec64b583ae16790e76954ce25e3",
+      "adaptedSha256": "08b19d280c3e542d571a4be48207618ead8ef35e0f1c01551a8991775345a845"
+    },
+    {
+      "path": "references/train/inspect.md",
+      "sourceSha256": "a3579d5aaf81620c12dd0ec56fc77c95ad91dec3dd515e8ca25e75d430b91adb",
+      "adaptedSha256": "dc33d03550cd4a01a30aec3aa582efe4f4386aee09628aef9d2c770b5d063125"
+    },
+    {
+      "path": "references/train/list.md",
+      "sourceSha256": "5c7682e1192198cb99ca9cf6a67bddc3eb91ba5658955b78f73b2eeda448fe35",
+      "adaptedSha256": "4e69a5e46b6eb9354b66ffcd330f252ec004df89074b8a67aba11e2b8ce3da60"
+    },
+    {
+      "path": "references/train/operations.md",
+      "sourceSha256": "24f1143f16a5f3b3faed34078f011326d50ee226e6e73527e4cf921ae6b728b6",
+      "adaptedSha256": "24f1143f16a5f3b3faed34078f011326d50ee226e6e73527e4cf921ae6b728b6"
+    },
+    {
+      "path": "references/train.md",
+      "sourceSha256": "2551b5e3f94ee8282d01f99930a52c053d99e66139cb76ae24cc630cff796899",
+      "adaptedSha256": "f06905b278694806b088521e36f09bd941c1220953194aa82e0ec7bac24f5da5"
+    }
+  ]
+}

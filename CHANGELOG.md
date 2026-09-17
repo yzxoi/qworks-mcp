@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+- Extract and adapt the Private Inspire skill with pinned source and output digests.
+- Add standalone Jupyter workflows and portable Agent Skills packaging for MCP clients.
+- Correct module-specific image field guidance and replace concrete environment examples.
+- Include skill references in npm packages and validate their links and tool dependencies.
+
 ## 0.2.0
 
 - Add 26 Jupyter MCP tools alongside the existing platform SDK.

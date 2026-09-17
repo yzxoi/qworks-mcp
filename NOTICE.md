@@ -11,3 +11,5 @@ Upstream product: [QWorks](https://qworks.tech/solutions/sii).
 Direct npm dependencies retain their respective licenses and notices in their installed packages. The source bundle used for this extraction did not contain a bundled license notice block; this file records provenance rather than inventing upstream license terms.
 
 The independently implemented Jupyter connector uses the official `@jupyterlab/services` client (BSD-3-Clause) and `ws` (MIT), installed as npm dependencies. It does not include QWorks desktop UI or conversation-session code.
+
+The ten source-derived files under `skills/inspire` adapt the Private Inspire skill distributed with the pinned QWorks build. Source and adapted digests are recorded in `vendor/inspire-skill-manifest.json`; the upstream text remains attributable to its respective authors. `references/jupyter.md` and `agents/openai.yaml` are adapter-maintained additions. This adaptation does not grant a new license to upstream material.

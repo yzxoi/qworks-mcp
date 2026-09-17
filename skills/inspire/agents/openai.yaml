@@ -1,0 +1,9 @@
+interface:
+  display_name: "启智 Inspire"
+  short_description: "通过独立 MCP 管理启智实例、持续计算、远程文件与交互终端"
+  default_prompt: "使用 $inspire 连接启智实例，并按我的任务选择计算、文件或终端工具。"
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "qworks"
+      description: "独立 qworks-mcp，提供启智平台管理和 Jupyter 连接工具"
