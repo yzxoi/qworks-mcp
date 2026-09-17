@@ -1,2 +1,3 @@
 * text=auto eol=lf
-vendor/inspire-sdk.cjs linguist-vendored=true
+# Preserve original whitespace inside the generated upstream template strings.
+vendor/inspire-sdk.cjs linguist-vendored=true -whitespace
