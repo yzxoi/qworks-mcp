@@ -28,7 +28,7 @@ test('real stdio client initializes, lists tools and reads login state offline',
     command: process.execPath,
     args: ['--require', fileURLToPath(new URL('./fixtures/offline.cjs', import.meta.url)),
       fileURLToPath(new URL('../bin/qworks-mcp.mjs', import.meta.url)),
-      '--credentials', credentials, '--allowed-root', root],
+      '--credentials', credentials, '--allowed-root', root, '--state-dir', join(root, 'sessions')],
     stderr: 'pipe',
   });
   const client = new Client({ name: 'qworks-mcp-smoke-test', version: '0.1.0' });
@@ -37,7 +37,8 @@ test('real stdio client initializes, lists tools and reads login state offline',
   try {
     await client.connect(transport);
     const { tools } = await client.listTools();
-    assert.deepEqual(tools.map(x => x.name).sort(), ['inspire_login', 'inspire_login_status', 'inspire_logout']);
+    assert.deepEqual(tools.filter(x => !x.name.startsWith('jupyter_')).map(x => x.name).sort(), ['inspire_login', 'inspire_login_status', 'inspire_logout']);
+    assert.equal(tools.filter(x => x.name.startsWith('jupyter_')).length, 26);
     const login = await client.callTool({ name: 'inspire_login_status', arguments: {} });
     assert(!login.isError);
     const state = JSON.parse(login.content.find(x => x.type === 'text').text);

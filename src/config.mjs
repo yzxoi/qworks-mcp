@@ -4,7 +4,7 @@ import { realpathSync, statSync } from 'node:fs';
 
 export const privateModules = Object.freeze([
   'auth', 'api_keys', 'context', 'workspaces', 'resource_specs', 'images',
-  'notebooks', 'train', 'hpc_jobs', 'inference_servings', 'model_hub',
+  'notebooks', 'train', 'hpc_jobs', 'inference_servings', 'model_hub', 'jupyter',
 ]);
 
 export function expandPath(value, cwd = process.cwd()) {
@@ -18,16 +18,17 @@ export function defaultCredentialsPath() {
 }
 
 export function parseConfig(argv, env = process.env, cwd = process.cwd()) {
-  const options = { mode: 'serve', credentialsPath: env.QWORKS_SDK_CREDENTIALS || defaultCredentialsPath(), allowedRoots: [] };
+  const options = { mode: 'serve', credentialsPath: env.QWORKS_SDK_CREDENTIALS || defaultCredentialsPath(), stateDir: join(homedir(), '.qworks-mcp', 'sessions'), allowedRoots: [] };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--help' || arg === '-h') { options.mode = 'help'; continue; }
     if (arg === '--version') { options.mode = 'version'; continue; }
     if (arg === '--doctor') { options.mode = 'doctor'; continue; }
-    if (!['--credentials', '--allowed-root', '--modules'].includes(arg)) throw new Error(`Unknown option: ${arg}`);
+    if (!['--credentials', '--allowed-root', '--modules', '--state-dir'].includes(arg)) throw new Error(`Unknown option: ${arg}`);
     const value = argv[++i];
     if (!value?.trim() || value.startsWith('--')) throw new Error(`Missing value for ${arg}`);
     if (arg === '--credentials') options.credentialsPath = value;
+    if (arg === '--state-dir') options.stateDir = value;
     if (arg === '--allowed-root') options.allowedRoots.push(value);
     if (arg === '--modules') {
       options.modules = [...new Set(value.split(',').map(x => x.trim()).filter(Boolean))];
@@ -37,6 +38,7 @@ export function parseConfig(argv, env = process.env, cwd = process.cwd()) {
     }
   }
   options.credentialsPath = expandPath(options.credentialsPath, cwd);
+  options.stateDir = expandPath(options.stateDir, cwd);
   options.allowedRoots = (options.allowedRoots.length ? options.allowedRoots : [cwd]).map(x => expandPath(x, cwd));
   return options;
 }

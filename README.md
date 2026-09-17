@@ -1,17 +1,17 @@
 # QWorks MCP
 
-把 QWorks 中的 Inspire SDK 包装成独立的 JavaScript SDK 和标准 stdio MCP 服务，供 Codex、Claude Code 以及其他支持本地 stdio 的 MCP 客户端调用。
+独立的启智 JavaScript SDK 和 stdio MCP 服务，供 Codex、Claude Code 以及其他 MCP 客户端管理实例、持续执行代码、操作远程文件和终端。平台管理复用提取的 Inspire SDK，实例连接使用 JupyterLab 官方客户端库。
 
 仓库已包含固定版本的 SDK 运行文件。**运行时不需要安装或启动 QWorks**，也不经过它的本地 HTTP 服务；登录后直接访问平台后端。只有维护者重新提取 SDK 时才需要对应版本的桌面安装包。
 
-当前适配 QWorks `0.7.9.1176`，内嵌 SDK `0.1.15-dev.2`。这是非官方适配项目，采用 private 仓库管理，未发布到公共 npm。
+当前适配 QWorks `0.7.9.1176`，内嵌 SDK `0.1.15-dev.2`。这是非官方适配项目，GitHub 仓库公开，未发布到 npm；package.json 的 `private: true` 用于防止意外发布 npm 包。
 
 ## 安装
 
-需要 Node.js **24.11 或以上版本**、npm，以及此私有仓库的读取权限。
+需要 Node.js **24.11 或以上版本**和 npm。
 
 ```sh
-git clone git@github.com:yzxoi/qworks-mcp.git
+git clone https://github.com/yzxoi/qworks-mcp.git
 cd qworks-mcp
 npm ci
 npm run verify
@@ -44,7 +44,7 @@ claude mcp add --transport stdio --scope user qworks -- node "$PWD/bin/qworks-mc
 
 ## 登录与凭据
 
-默认使用独立凭据文件 `~/.qworks-mcp/credentials.json`。首次连接只提供三个认证工具：`inspire_login`、`inspire_login_status`、`inspire_logout`。
+默认使用独立凭据文件 `~/.qworks-mcp/credentials.json`。未登录时提供三个认证工具：`inspire_login`、`inspire_login_status`、`inspire_logout`，以及 26 个 Jupyter 工具。通过实例 ID 连接需要平台登录；使用已有 Jupyter 访问 URL 可直接连接。
 
 在客户端让助手调用：
 
@@ -69,7 +69,7 @@ node bin/qworks-mcp.mjs --credentials "$HOME/.inspire/config.json"
 
 ## 提供哪些能力
 
-固定版本包含 **41 个 Private 工具定义**；实际工具数量取决于登录状态、后端 discovery 和账号权限。在已有会话验证中提供了 **37 个工具**，这一数量不是所有部署的保证。
+固定 SDK 包含 **41 个 Private 工具定义**；实际平台工具数量取决于登录状态、discovery 和账号权限。在已有身份下验证了 37 个平台工具。适配器另外提供 **26 个 Jupyter 工具**，该身份下默认合计 63 个；数量不是所有部署的保证。
 
 | 模块 | 用途 |
 | --- | --- |
@@ -81,16 +81,35 @@ node bin/qworks-mcp.mjs --credentials "$HOME/.inspire/config.json"
 | `inference_servings` | 推理服务创建、配置、控制和回滚 |
 | `model_hub` | 模型列表、详情和部署计划 |
 | `api_keys` | 用户 API Key 管理 |
+| `jupyter` | 独立会话、持续 Kernel、文件传输、PTY 终端、后台 Shell 作业 |
 
 原有 SDK 的读写工具都保留，实际调用受平台账号权限和客户端审批设置约束。可以限制需要暴露的模块，例如：
 
 ```sh
-node bin/qworks-mcp.mjs --modules context,notebooks,resource_specs,images
+node bin/qworks-mcp.mjs --modules context,notebooks,resource_specs,images,jupyter
 ```
 
 认证工具始终保留。`--modules` 是功能分组过滤，不是只读模式；`--allowed-root` 限制 SDK 的本地文件操作范围，不限制远端平台操作。
 
-这份 SDK 不包含 QWorks 的所有桌面能力。例如桌面的 Jupyter 会话执行桥接、聊天和插件编排没有包装进来。项目目标是可独立运行的 SDK MCP。
+`--modules jupyter` 可只启用实例连接层和认证工具。聊天、桌面 UI 和插件编排不属于此项目。
+
+## 连接实例并执行
+
+让客户端依次调用以下工具，`INSTANCE_ID` 替换为 `notebooks_list` 返回的实例 ID：
+
+```json
+{"name":"jupyter_session_open","arguments":{"notebook_id":"INSTANCE_ID","session_id":"research"}}
+{"name":"jupyter_execute","arguments":{"session_id":"research","code":"value = 40\nprint(value)","wait_ms":1000}}
+{"name":"jupyter_execute","arguments":{"session_id":"research","code":"value += 2\nprint(value)","wait_ms":1000}}
+```
+
+同一会话的变量保留。长执行返回 `execution_id`，用 `jupyter_execution_read` 续读；Shell 长任务使用 `jupyter_exec_start` / `jupyter_exec_read`，其日志和退出码可在 MCP 重启后继续查询。
+
+会话绑定默认保存在 `~/.qworks-mcp/sessions`，可用 `--state-dir` 修改；不保存访问 Token。用相同 `session_id` 恢复连接。不同客户端默认生成不同 ID；同一个 ID 同时只允许一个本地进程打开。
+
+退出 MCP 或 `jupyter_session_close(mode="detach")` 会保留远程 Kernel、终端和作业，便于恢复。完成工作后使用 `mode="shutdown"` 清理本会话的 Kernel 和终端；后台 Shell 作业需单独 `jupyter_exec_cancel`，结束后可 `jupyter_exec_forget` 清理日志。以上操作均不会停止平台实例。
+
+完整工具表、文件传输示例、恢复行为和限制见 [Jupyter 使用说明](docs/jupyter.md)。
 
 ## JavaScript SDK
 

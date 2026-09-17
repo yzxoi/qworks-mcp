@@ -1,15 +1,32 @@
 {
   "name": "@yzxoi/qworks-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Standalone SDK and stdio MCP adapter for QWorks",
   "private": true,
   "license": "UNLICENSED",
   "type": "module",
-  "engines": { "node": ">=24.11.0" },
-  "bin": { "qworks-mcp": "bin/qworks-mcp.mjs" },
-  "exports": { ".": "./src/sdk.mjs" },
-  "files": ["bin/", "src/", "vendor/", "README.md", "NOTICE.md", "docs/"],
-  "repository": { "type": "git", "url": "git+ssh://git@github.com/yzxoi/qworks-mcp.git" },
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "bin": {
+    "qworks-mcp": "bin/qworks-mcp.mjs"
+  },
+  "exports": {
+    ".": "./src/sdk.mjs",
+    "./jupyter": "./src/server.mjs"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "vendor/",
+    "README.md",
+    "NOTICE.md",
+    "docs/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yzxoi/qworks-mcp.git"
+  },
   "scripts": {
     "start": "node bin/qworks-mcp.mjs",
     "doctor": "node bin/qworks-mcp.mjs --doctor",
@@ -19,9 +36,11 @@
     "verify": "npm run check:content && npm test"
   },
   "dependencies": {
+    "@jupyterlab/services": "7.6.3",
     "@modelcontextprotocol/sdk": "1.30.0",
     "ajv": "8.20.0",
-    "ajv-formats": "3.0.1"
+    "ajv-formats": "3.0.1",
+    "ws": "8.21.3"
   },
   "devDependencies": {
     "@babel/parser": "8.0.5",
